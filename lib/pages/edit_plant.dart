@@ -62,8 +62,10 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.green[800],
           actions: [buildButton()],
         ),
+        backgroundColor: Colors.green,
         body: SingleChildScrollView(
           child: Form(
               key: _formKey,
@@ -72,26 +74,20 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
                   PlantForm(
                     name: name,
                     imagePath: imagePath,
-
                     petalCount: petalCount,
-
                     hasLeafHair: hasLeafHair,
                     isGlabrous: isGlabrous,
                     hasSimpleLeaf: hasSimpleLeaf,
                     hasStipule: hasStipule,
                     hasCompostLeaf: hasCompostLeaf,
-
                     observation: observation,
                     gpsLocation: gpsLocation,
-
                     onChangedname: (onChangedname) =>
                         setState(() => this.name = onChangedname),
                     onChangedimagePath: (onChangedimagePath) =>
                         setState(() => this.imagePath = onChangedimagePath),
-
                     onChangedpetalCount: (onChangedpetalCount) =>
                         setState(() => this.petalCount = onChangedpetalCount),
-
                     onChangedhasLeafHair: (onChangedhasLeafHair) =>
                         setState(() => this.hasLeafHair),
                     onChangedisGlabrous: (onChangedisGlabrous) =>
@@ -102,13 +98,10 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
                         setState(() => this.hasLeafHair),
                     onChangedhasStipule: (onChangedhasStipule) =>
                         setState(() => this.hasStipule),
-
                     onChangedgpsLocation: (onChangedgpsLocation) =>
                         setState(() => this.gpsLocation),
                     onChangedobservation: (onChangedobservation) =>
                         setState(() => this.observation),
-
-                    
                   ),
                 ],
               )),
@@ -116,17 +109,17 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
       );
 
   Widget buildButton() {
-    final isFormValid = name.isNotEmpty && observation.isNotEmpty;
+    final isFormValid = name.isNotEmpty && observation.isNotEmpty;//adicionar mais verificações
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           onPrimary: Colors.white,
-          primary: isFormValid ? null : Colors.grey.shade700,
+          primary: isFormValid ? null : Colors.green,
         ),
         onPressed: addOrUpdateNote,
-        child: const Text('Save'),
+        child: const Text('Salvar'),
       ),
     );
   }
@@ -150,11 +143,16 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
   Future updateNote() async {
 //Adicionar campos faltantes
     final plant = widget.plant!.copy(
-      name: name,
-      observation: observation,
-      isGlabrous: isGlabrous,
-      petalCount: petalCount,
-    );
+        imagePath: imagePath,
+        name: name,
+        petalCount: petalCount,
+        hasLeafHair: hasLeafHair,
+        isGlabrous: isGlabrous,
+        hasSimpleLeaf: hasSimpleLeaf,
+        hasStipule: hasStipule,
+        hasCompostLeaf: hasCompostLeaf,
+        observation: observation,
+        gpsLocation: gpsLocation);
 
     await PlantsDatabase.instance.update(plant);
   }

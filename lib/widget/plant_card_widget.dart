@@ -1,17 +1,19 @@
+import 'dart:io';
+
 import 'package:bio_catalogo/model/plant.dart';
 import 'package:flutter/material.dart';
 
-final _lightColors = [
-  Colors.amber.shade300,
-  Colors.lightGreen.shade300,
-  Colors.lightBlue.shade300,
-  Colors.orange.shade300,
-  Colors.pinkAccent.shade100,
-  Colors.tealAccent.shade100
-];
+// final _lightColors = [
+//   Colors.amber.shade300,
+//   Colors.lightGreen.shade300,
+//   Colors.lightBlue.shade300,
+//   Colors.orange.shade300,
+//   Colors.pinkAccent.shade100,
+//   Colors.tealAccent.shade100
+// ];
 
 class PlantCard extends StatelessWidget {
-  PlantCard({
+  const PlantCard({
     Key? key,
     required this.plant,
     required this.index,
@@ -22,32 +24,25 @@ class PlantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = _lightColors[index % _lightColors.length];
-    // final minHeight = getMinHeight(index);
+    // final color = _lightColors[index % _lightColors.length];
+    // // final minHeight = getMinHeight(index);
 
     return Card(
-      color: color,
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              plant.name,
-              style: TextStyle(color: Colors.grey.shade700),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              plant.observation,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+      margin: const EdgeInsets.all(8),
+      child: ListTile(
+        leading: Image.file(
+          File(plant.imagePath), // Certifique-se de ter o caminho correto
+          width: 50,
+          height: 50,
+          fit: BoxFit.cover,
         ),
+        title: Text(
+          plant.name.toUpperCase(),
+        ),
+        subtitle: Text(
+          plant.observation,
+        ),
+        // subtitle: Text('${plant.observation}'),
       ),
     );
   }

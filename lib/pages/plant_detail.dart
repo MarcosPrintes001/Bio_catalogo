@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bio_catalogo/db/plants_database.dart';
 import 'package:bio_catalogo/model/plant.dart';
 import 'package:bio_catalogo/pages/edit_plant.dart';
@@ -23,10 +25,10 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
   void initState() {
     super.initState();
 
-    refreshNote();
+    refreshPlant();
   }
 
-  Future refreshNote() async {
+  Future refreshPlant() async {
     setState(() => isLoading = true);
 
     this.plant = await PlantsDatabase.instance.readNote(widget.plantId);
@@ -37,8 +39,13 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          actions: [editButton(), deleteButton()],
+          backgroundColor: Colors.green[800],
+          actions: [
+            editButton(),
+            deleteButton(),
+          ],
         ),
+        backgroundColor: Colors.green,
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : Padding(
@@ -46,20 +53,32 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   children: [
-                    Text(
-                      plant.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Image.file(
+                      File(plant.imagePath),
+                      width: 300,
+                      height: 300,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(height: 8),
-                    const SizedBox(height: 8),
-                    Text(
-                      plant.observation,
-                      style:
-                          const TextStyle(color: Colors.white70, fontSize: 18),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          plant.name,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          plant.observation,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
@@ -67,7 +86,10 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
       );
 
   Widget editButton() => IconButton(
-      icon: const Icon(Icons.edit_outlined),
+      icon: const Icon(
+        Icons.edit_outlined,
+        color: Colors.white,
+      ),
       onPressed: () async {
         if (isLoading) return;
 
@@ -75,11 +97,14 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
           builder: (context) => AddEditPlantPage(plant: plant),
         ));
 
-        refreshNote();
+        refreshPlant();
       });
 
   Widget deleteButton() => IconButton(
-        icon: const Icon(Icons.delete),
+        icon: const Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
         onPressed: () async {
           await PlantsDatabase.instance.delete(widget.plantId);
 

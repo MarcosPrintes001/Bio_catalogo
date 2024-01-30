@@ -1,10 +1,11 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:bio_catalogo/db/plants_database.dart';
 import 'package:bio_catalogo/model/plant.dart';
 import 'package:bio_catalogo/pages/edit_plant.dart';
 import 'package:bio_catalogo/pages/plant_detail.dart';
 import 'package:bio_catalogo/widget/plant_card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    refreshNotes();
+    refreshList();
   }
 
   @override
@@ -31,10 +32,10 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  Future refreshNotes() async {
+  Future refreshList() async {
     setState(() => isLoading = true);
 
-    this.plants = await PlantsDatabase.instance.readAllNotes();
+    this.plants = await PlantsDatabase.instance.readAllPlants();
 
     setState(() => isLoading = false);
   }
@@ -42,52 +43,73 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.green[800],
           title: const Text(
-            'Helper Plant Identifier',
-            style: TextStyle(fontSize: 24),
+            'BIO CATALOGO',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          actions: const [Icon(Icons.search), SizedBox(width: 12)],
+          actions: const [
+            IconButton(
+              onPressed: null, //Implementar busca de palavras
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+                size: 30,
+              ),
+            )
+          ],
         ),
+        backgroundColor: Colors.green,
         body: Center(
           child: isLoading
               ? const CircularProgressIndicator()
               : plants.isEmpty
                   ? const Text(
-                      'No Notes',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
+                      'Sem Plantas',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
                     )
-                  : buildNotes(),
+                  : buildPlants(),
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
-          child: const Icon(Icons.add),
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
           onPressed: () async {
             await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const AddEditPlantPage()),
+              MaterialPageRoute(
+                builder: (context) => const AddEditPlantPage(),
+              ),
             );
 
-            refreshNotes();
+            refreshList();
           },
         ),
       );
 
-  Widget buildNotes() => StaggeredGridView.countBuilder(
+  Widget buildPlants() => ListView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: plants.length,
-        staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
-        crossAxisCount: 4,
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
         itemBuilder: (context, index) {
           final plant = plants[index];
 
           return GestureDetector(
             onTap: () async {
-              await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PlantDetailPage(plantId: plant.id!),
-              ));
+              await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => PlantDetailPage(plantId: plant.id!),
+                ),
+              );
 
-              refreshNotes();
+              refreshList();
             },
             child: PlantCard(plant: plant, index: index),
           );

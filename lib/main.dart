@@ -21,16 +21,12 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: title,
-      themeMode: ThemeMode.dark,
       theme: ThemeData(
-        primaryColor: Colors.black,
-        scaffoldBackgroundColor: Colors.blueGrey.shade900,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
           elevation: 0,
         ),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

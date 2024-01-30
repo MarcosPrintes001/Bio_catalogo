@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class PlantForm extends StatelessWidget {
   final String? imagePath;
@@ -60,58 +61,96 @@ class PlantForm extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               buildImagePreview(),
-              Switch(
-                value: hasLeafHair ?? false,
-                onChanged: onChangedhasLeafHair,
+              const SizedBox(height: 8),
+              buildName(),
+              const SizedBox(height: 8),
+              const Divider(),
+              Row(
+                children: [
+                  Switch(
+                    value: hasLeafHair ?? false,
+                    onChanged: (newValue) {
+                      onChangedhasLeafHair(newValue);
+                    },
+                  ),
+                  const Text(
+                    "Pelo nas Folhas",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              Switch(
-                value: isGlabrous ?? false,
-                onChanged: onChangedisGlabrous,
+              Row(
+                children: [
+                 Switch(
+                    value: hasCompostLeaf ?? false,
+                    onChanged: (newValue) {
+                      onChangedhasCompostLeaf(newValue);
+                    },
+                  ),
+                  const Text(
+                    "Folha Composta",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              Switch(
-                value: hasSimpleLeaf ?? false,
-                onChanged: onChangedhasSimpleLeaf,
-              ),
-              Switch(
-                value: hasCompostLeaf ?? false,
-                onChanged: onChangedhasCompostLeaf,
-              ),
-              Switch(
-                value: hasStipule ?? false,
-                onChanged: onChangedhasStipule,
-              ),
+              const Divider(),
+              const Text("Quantidade de Petalas",
+                  style: TextStyle(color: Colors.white)),
               Slider(
                 value: (petalCount ?? 0).toDouble(),
+                label: "$petalCount",
                 min: 0,
                 max: 5,
                 divisions: 5,
-                onChanged: (petal) => onChangedpetalCount(petalCount!.toInt()),
+                onChanged: (petal) => onChangedpetalCount(petal.toInt()),
               ),
-              buildTitle(),
+              const Divider(),
               const SizedBox(height: 8),
-              buildDescription(),
+              buildObservation(),
               const SizedBox(height: 16),
             ],
           ),
         ),
       );
+
   Widget buildImagePreview() {
     return GestureDetector(
       onTap: () => _openCamera(),
-      child: imagePath != null &&
-              imagePath!.isNotEmpty // Verifica se o caminho não é vazio
+      child: imagePath != null && imagePath!.isNotEmpty
           ? Image.file(
-              File(imagePath!), // Converte o caminho para um File
+              File(imagePath!),
               width: 300,
               height: 300,
               fit: BoxFit.cover,
             )
           : Container(
-            height: 300, width: 300,
-            alignment: Alignment.center,
-            color: Colors.green,
-          ),
-            
+              height: 300,
+              width: 300,
+              alignment: Alignment.center,
+              color: Colors.green[800],
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                  Text(
+                    "Nenhuma imagem selecionada,\nclique aqui para adicionar",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
     );
   }
 
@@ -124,7 +163,7 @@ class PlantForm extends StatelessWidget {
     }
   }
 
-  Widget buildTitle() => TextFormField(
+  Widget buildName() => TextFormField(
         maxLines: 1,
         initialValue: name,
         style: const TextStyle(
@@ -133,26 +172,29 @@ class PlantForm extends StatelessWidget {
           fontSize: 24,
         ),
         decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Title',
+          hintText: 'Nome',
           hintStyle: TextStyle(color: Colors.white70),
         ),
-        validator: (title) =>
-            title != null && title.isEmpty ? 'The title cannot be empty' : null,
+        validator: (title) => title != null && title.isEmpty
+            ? 'O nome não pode ficar vazio'
+            : null,
         onChanged: onChangedname,
       );
 
-  Widget buildDescription() => TextFormField(
-        maxLines: 5,
+  Widget buildObservation() => TextFormField(
+        maxLines: 3,
         initialValue: observation,
-        style: const TextStyle(color: Colors.white60, fontSize: 18),
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Type something...',
-          hintStyle: TextStyle(color: Colors.white60),
+        style: const TextStyle(
+          color: Colors.white70,
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
         ),
-        validator: (title) => title != null && title.isEmpty
-            ? 'The description cannot be empty'
+        decoration: const InputDecoration(
+          hintText: 'Observação',
+          hintStyle: TextStyle(color: Colors.white70),
+        ),
+        validator: (observacao) => observacao != null && observacao.isEmpty
+            ? 'A observação não pode ficar vazia'
             : null,
         onChanged: onChangedobservation,
       );

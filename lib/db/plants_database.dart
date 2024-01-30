@@ -12,7 +12,7 @@ class PlantsDatabase {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('notes.db');
+    _database = await _initDB('plants.db');
     return _database!;
   }
 
@@ -66,17 +66,15 @@ CREATE TABLE $tablePlants (
     if (maps.isNotEmpty) {
       return Plant.fromJson(maps.first);
     } else {
-      throw Exception('ID $id not found');
+      throw Exception('ID $id não encontrado');
     }
   }
 
-  Future<List<Plant>> readAllNotes() async {
+  Future<List<Plant>> readAllPlants() async {
     final db = await instance.database;
 
     const orderBy = PlantFields.id;
-    // final result =
-    //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
-
+    
     final result = await db.query(tablePlants, orderBy: orderBy);
 
     return result.map((json) => Plant.fromJson(json)).toList();
