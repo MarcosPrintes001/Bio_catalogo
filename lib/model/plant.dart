@@ -87,11 +87,13 @@ class Plant {
         imagePath: json[PlantFields.imagePath] as String,
         name: json[PlantFields.name] as String,
         petalCount: json[PlantFields.petalCount] as int,
-        hasLeafHair: json[PlantFields.hasLeafHair] as bool,
-        isGlabrous: json[PlantFields.isGlabrous] as bool,
-        hasSimpleLeaf: json[PlantFields.hasSimpleLeaf] as bool,
-        hasStipule: json[PlantFields.hasStipule] as bool,
-        hasCompostLeaf: json[PlantFields.hasCompostLeaf] as bool,
+        hasLeafHair: (json[PlantFields.hasLeafHair] as int) == 1 ? true : false,
+        isGlabrous: (json[PlantFields.isGlabrous] as int) == 1 ? true : false,
+        hasSimpleLeaf:
+            (json[PlantFields.hasSimpleLeaf] as int) == 1 ? true : false,
+        hasCompostLeaf:
+            (json[PlantFields.hasCompostLeaf] as int) == 1 ? true : false,
+        hasStipule: (json[PlantFields.hasStipule] as int) == 1 ? true : false,
         observation: json[PlantFields.observation] as String,
         gpsLocation: json[PlantFields.gpsLocation] as String,
       );

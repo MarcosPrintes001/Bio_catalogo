@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PlantForm extends StatelessWidget {
   final String? imagePath;
@@ -27,7 +30,6 @@ class PlantForm extends StatelessWidget {
 
   const PlantForm({
     Key? key,
-    this.imagePath = '',
     this.name = '',
     this.petalCount = 0,
     this.hasLeafHair = false,
@@ -47,6 +49,7 @@ class PlantForm extends StatelessWidget {
     required this.onChangedgpsLocation,
     this.gpsLocation = '',
     this.observation = '',
+    this.imagePath,
   }) : super(key: key);
 
   @override
@@ -56,6 +59,7 @@ class PlantForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              buildImagePreview(),
               Switch(
                 value: hasLeafHair ?? false,
                 onChanged: onChangedhasLeafHair,
@@ -76,15 +80,12 @@ class PlantForm extends StatelessWidget {
                 value: hasStipule ?? false,
                 onChanged: onChangedhasStipule,
               ),
-              Expanded(
-                child: Slider(
-                  value: (petalCount ?? 0).toDouble(),
-                  min: 0,
-                  max: 5,
-                  divisions: 5,
-                  onChanged: (petal) =>
-                      onChangedpetalCount(petalCount!.toInt()),
-                ),
+              Slider(
+                value: (petalCount ?? 0).toDouble(),
+                min: 0,
+                max: 5,
+                divisions: 5,
+                onChanged: (petal) => onChangedpetalCount(petalCount!.toInt()),
               ),
               buildTitle(),
               const SizedBox(height: 8),
@@ -94,6 +95,34 @@ class PlantForm extends StatelessWidget {
           ),
         ),
       );
+  Widget buildImagePreview() {
+    return GestureDetector(
+      onTap: () => _openCamera(),
+      child: imagePath != null &&
+              imagePath!.isNotEmpty // Verifica se o caminho não é vazio
+          ? Image.file(
+              File(imagePath!), // Converte o caminho para um File
+              width: 300,
+              height: 300,
+              fit: BoxFit.cover,
+            )
+          : Container(
+            height: 300, width: 300,
+            alignment: Alignment.center,
+            color: Colors.green,
+          ),
+            
+    );
+  }
+
+  Future<void> _openCamera() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      onChangedimagePath(pickedFile.path);
+    }
+  }
 
   Widget buildTitle() => TextFormField(
         maxLines: 1,

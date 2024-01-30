@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bio_catalogo/db/plants_database.dart';
 import 'package:bio_catalogo/model/plant.dart';
 import 'package:bio_catalogo/widget/plant_form_widget.dart';
@@ -64,57 +66,52 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
         ),
         body: SingleChildScrollView(
           child: Form(
-            key: _formKey,
-            child: 
-            // PlantForm(
-            //   name: name,
-            //   imagePath: imagePath,
-          
-            //   petalCount: petalCount,
-          
-            //   hasLeafHair: hasLeafHair,
-            //   isGlabrous: isGlabrous,
-            //   hasSimpleLeaf: hasSimpleLeaf,
-            //   hasStipule: hasStipule,
-            //   hasCompostLeaf: hasCompostLeaf,
-          
-            //   observation: observation,
-            //   gpsLocation: gpsLocation,
-          
-            //   onChangedname: (onChangedname) =>
-            //       setState(() => this.name = onChangedname),
-            //   onChangedimagePath: (onChangedimagePath) =>
-            //       setState(() => this.imagePath = onChangedimagePath),
-          
-            //   onChangedpetalCount: (onChangedpetalCount) =>
-            //       setState(() => this.petalCount = onChangedpetalCount),
-          
-            //   onChangedhasLeafHair: (onChangedhasLeafHair) =>
-            //       setState(() => this.hasLeafHair),
-            //   onChangedisGlabrous: (onChangedisGlabrous) =>
-            //       setState(() => this.isGlabrous),
-            //   onChangedhasSimpleLeaf: (onChangedhasSimpleLeaf) =>
-            //       setState(() => this.hasSimpleLeaf),
-            //   onChangedhasCompostLeaf: (onChangedhasCompostLeaf) =>
-            //       setState(() => this.hasLeafHair),
-            //   onChangedhasStipule: (onChangedhasStipule) =>
-            //       setState(() => this.hasStipule),
-          
-            //   onChangedgpsLocation: (onChangedgpsLocation) =>
-            //       setState(() => this.gpsLocation),
-            //   onChangedobservation: (onChangedobservation) =>
-            //       setState(() => this.observation),
-          
-            //   // onChangedNumber: (number) => setState(() => this.number = number),
-            //   // onChangedTitle: (title) => setState(() => this.title = title),
-            //   // onChangedDescription: (description) => setState(() => this.description = description),
-            // ),
-            
-            Column(children: [
+              key: _formKey,
+              child: Column(
+                children: [
+                  PlantForm(
+                    name: name,
+                    imagePath: imagePath,
 
-              
-            ],)
-          ),
+                    petalCount: petalCount,
+
+                    hasLeafHair: hasLeafHair,
+                    isGlabrous: isGlabrous,
+                    hasSimpleLeaf: hasSimpleLeaf,
+                    hasStipule: hasStipule,
+                    hasCompostLeaf: hasCompostLeaf,
+
+                    observation: observation,
+                    gpsLocation: gpsLocation,
+
+                    onChangedname: (onChangedname) =>
+                        setState(() => this.name = onChangedname),
+                    onChangedimagePath: (onChangedimagePath) =>
+                        setState(() => this.imagePath = onChangedimagePath),
+
+                    onChangedpetalCount: (onChangedpetalCount) =>
+                        setState(() => this.petalCount = onChangedpetalCount),
+
+                    onChangedhasLeafHair: (onChangedhasLeafHair) =>
+                        setState(() => this.hasLeafHair),
+                    onChangedisGlabrous: (onChangedisGlabrous) =>
+                        setState(() => this.isGlabrous),
+                    onChangedhasSimpleLeaf: (onChangedhasSimpleLeaf) =>
+                        setState(() => this.hasSimpleLeaf),
+                    onChangedhasCompostLeaf: (onChangedhasCompostLeaf) =>
+                        setState(() => this.hasLeafHair),
+                    onChangedhasStipule: (onChangedhasStipule) =>
+                        setState(() => this.hasStipule),
+
+                    onChangedgpsLocation: (onChangedgpsLocation) =>
+                        setState(() => this.gpsLocation),
+                    onChangedobservation: (onChangedobservation) =>
+                        setState(() => this.observation),
+
+                    
+                  ),
+                ],
+              )),
         ),
       );
 
@@ -122,14 +119,14 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
     final isFormValid = name.isNotEmpty && observation.isNotEmpty;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            // onPrimary: Colors.white,
-            // primary: isFormValid ? null : Colors.grey.shade700,
-            ),
+          onPrimary: Colors.white,
+          primary: isFormValid ? null : Colors.grey.shade700,
+        ),
         onPressed: addOrUpdateNote,
-        child: Text('Save'),
+        child: const Text('Save'),
       ),
     );
   }
