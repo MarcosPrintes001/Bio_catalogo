@@ -57,46 +57,91 @@ class PlantForm extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildImagePreview(),
               const SizedBox(height: 16),
               buildName(),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  Switch(
-                    value: hasLeafHair ?? false,
-                    onChanged: (newValue) {
-                      onChangedhasLeafHair(newValue);
-                    },
-                  ),
-                  const Text(
-                    "Pelo nas Folhas",
-                    style: TextStyle(
-                      color: Colors.white,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Switch(
+                      value: hasLeafHair ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasLeafHair(newValue);
+                      },
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Switch(
-                    value: hasCompostLeaf ?? false,
-                    onChanged: (newValue) {
-                      onChangedhasCompostLeaf(newValue);
-                    },
-                  ),
-                  const Text(
-                    "Folha Composta",
-                    style: TextStyle(
-                      color: Colors.white,
+                    const Text(
+                      "Pelo nas Folhas",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                    
+                    Switch(
+                      value: isGlabrous ?? false,
+                      onChanged: (newValue) {
+                        onChangedisGlabrous(newValue);
+                      },
+                    ),
+                    const Text(
+                      "É Glabro",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                
+                    Switch(
+                      value: hasStipule ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasStipule(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Tem Estípula",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                
+                  ],
+                ),
               ),
-
-              const Divider(color: Colors.white38,),
+              SingleChildScrollView(
+                child: Row(
+                  children: [
+                    Switch(
+                      value: hasSimpleLeaf ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasSimpleLeaf(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Folhas Simples",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    Switch(
+                      value: hasCompostLeaf ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasCompostLeaf(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Folhas Compostas",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                color: Colors.white38,
+              ),
               const Text("Quantidade de Petalas",
                   style: TextStyle(color: Colors.white)),
               Slider(
@@ -231,5 +276,6 @@ class PlantForm extends StatelessWidget {
         validator: (gps) =>
             gps != null && gps.isEmpty ? 'O GPS não pode ficar vazio' : null,
         onChanged: onChangedgpsLocation,
+        keyboardType: TextInputType.number,
       );
 }

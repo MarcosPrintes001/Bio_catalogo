@@ -4,6 +4,7 @@ import 'package:bio_catalogo/db/plants_database.dart';
 import 'package:bio_catalogo/model/plant.dart';
 import 'package:bio_catalogo/widget/plant_form_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddEditPlantPage extends StatefulWidget {
   final Plant? plant;
@@ -49,9 +50,6 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
 
     observation = widget.plant?.observation ?? '';
     gpsLocation = widget.plant?.gpsLocation ?? '';
-
-    // number = widget.plant?.number ?? 0;
-    // description = widget.plant?.description ?? '';
   }
 
   @override
@@ -78,27 +76,26 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
                     observation: observation,
                     gpsLocation: gpsLocation,
                     onChangedname: (onChangedname) =>
-                        setState(() => this.name = onChangedname),
+                        setState(() => name = onChangedname),
                     onChangedimagePath: (onChangedimagePath) =>
-                        setState(() => this.imagePath = onChangedimagePath),
+                        setState(() => imagePath = onChangedimagePath),
                     onChangedpetalCount: (onChangedpetalCount) =>
-                        setState(() => this.petalCount = onChangedpetalCount),
+                        setState(() => petalCount = onChangedpetalCount),
                     onChangedhasLeafHair: (onChangedhasLeafHair) =>
-                        setState(() => this.hasLeafHair = onChangedhasLeafHair),
+                        setState(() => hasLeafHair = onChangedhasLeafHair),
                     onChangedisGlabrous: (onChangedisGlabrous) =>
-                        setState(() => this.isGlabrous = onChangedisGlabrous),
+                        setState(() => isGlabrous = onChangedisGlabrous),
                     onChangedhasSimpleLeaf: (onChangedhasSimpleLeaf) =>
-                        setState(
-                            () => this.hasSimpleLeaf = onChangedhasSimpleLeaf),
+                        setState(() => hasSimpleLeaf = onChangedhasSimpleLeaf),
                     onChangedhasCompostLeaf: (onChangedhasCompostLeaf) =>
-                        setState(() =>
-                            this.hasCompostLeaf = onChangedhasCompostLeaf),
+                        setState(
+                            () => hasCompostLeaf = onChangedhasCompostLeaf),
                     onChangedhasStipule: (onChangedhasStipule) =>
-                        setState(() => this.hasStipule = onChangedhasStipule),
+                        setState(() => hasStipule = onChangedhasStipule),
                     onChangedgpsLocation: (onChangedgpsLocation) =>
-                        setState(() => this.gpsLocation = onChangedgpsLocation),
+                        setState(() => gpsLocation = onChangedgpsLocation),
                     onChangedobservation: (onChangedobservation) =>
-                        setState(() => this.observation = onChangedobservation),
+                        setState(() => observation = onChangedobservation),
                   ),
                 ],
               )),
@@ -106,23 +103,41 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
       );
 
   Widget buildButton() {
-    final isFormValid = imagePath.isNotEmpty && name.isNotEmpty && observation.isNotEmpty && gpsLocation.isNotEmpty; //adicionar mais verificações
+    final isFormValid = imagePath.isNotEmpty &&
+        name.isNotEmpty &&
+        observation.isNotEmpty &&
+        gpsLocation.isNotEmpty;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onPrimary: Colors.white,
-          primary: isFormValid ? null : Colors.green,
+          backgroundColor: isFormValid ? null : Colors.red,
         ),
         onPressed: addOrUpdateNote,
-        child: const Text('Salvar'),
+        child: const Text(
+          'Salvar',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
     );
   }
 
   void addOrUpdateNote() async {
     final isValid = _formKey.currentState!.validate();
+
+    if (imagePath.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Adicione uma imagem!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return; // Retorna para evitar que a planta seja salva sem imagem
+    }
 
     if (isValid) {
       final isUpdating = widget.plant != null;
@@ -134,11 +149,20 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
       }
 
       Navigator.of(context).pop();
+    } else {
+      Fluttertoast.showToast(
+        msg: "Preencha todos os campos para adicionar uma planta",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
   Future updateNote() async {
-//Adicionar campos faltantes
     final plant = widget.plant!.copy(
         imagePath: imagePath,
         name: name,

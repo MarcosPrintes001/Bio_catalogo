@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, unnecessary_this
+
 import 'dart:io';
 
 import 'package:bio_catalogo/db/plants_database.dart';
@@ -14,12 +16,13 @@ class PlantDetailPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PlantDetailPageState createState() => _PlantDetailPageState();
+  State<PlantDetailPage> createState() => _PlantDetailPageState();
 }
 
 class _PlantDetailPageState extends State<PlantDetailPage> {
   late Plant plant;
   bool isLoading = false;
+  Color textCor = Colors.black;
 
   @override
   void initState() {
@@ -47,11 +50,17 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
         ),
         backgroundColor: Colors.green,
         body: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
             : Padding(
                 padding: const EdgeInsets.all(12),
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
+                  physics:
+                      const AlwaysScrollableScrollPhysics(), // Permite rolagem mesmo se o conteúdo for pequeno
+                  shrinkWrap:
+                      true, // Para garantir que o ListView não consuma mais espaço do que necessário
                   children: [
                     Image.file(
                       File(plant.imagePath),
@@ -60,76 +69,77 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                       fit: BoxFit.cover,
                     ),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment
+                          .start, // Alinha os filhos à esquerda
                       children: [
                         Text(
                           'Nome: ${plant.name}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style: TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           'Quantidade Pétalas: ${plant.petalCount}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style: TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Folha com Pelos: ${plant.hasLeafHair}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          'Folha com Pelos: ${plant.getYesNo(plant.hasLeafHair)}',
+                          style:  TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Folha Glabro: ${plant.isGlabrous}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          'Folha Glabra: ${plant.getYesNo(plant.isGlabrous)}',
+                          style:  TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Folha Simples: ${plant.hasSimpleLeaf}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          'Folha Simples: ${plant.getYesNo(plant.hasSimpleLeaf)}',
+                          style:  TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Folha Composta: ${plant.hasCompostLeaf}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          'Folha Composta: ${plant.getYesNo(plant.hasCompostLeaf)}',
+                          style:  TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Tem Estipula: ${plant.hasStipule}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          'Tem Estípula: ${plant.getYesNo(plant.hasStipule)}',
+                          style:  TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           'GPS: ${plant.gpsLocation}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style:  TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           'Observação: ${plant.observation}',
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style:  TextStyle(
+                            color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),

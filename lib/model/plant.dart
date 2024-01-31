@@ -33,11 +33,13 @@ class Plant {
   final String imagePath;
   final String name;
   final int petalCount;
+
   final bool hasLeafHair;
   final bool isGlabrous;
   final bool hasSimpleLeaf;
   final bool hasStipule;
   final bool hasCompostLeaf;
+
   final String observation;
   final String gpsLocation;
 
@@ -111,4 +113,6 @@ class Plant {
         PlantFields.gpsLocation: gpsLocation,
         PlantFields.observation: observation,
       };
+
+  String getYesNo(bool value) => value ? 'Sim' : 'Não';
 }
