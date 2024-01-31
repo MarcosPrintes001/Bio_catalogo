@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 
 class PlantForm extends StatelessWidget {
   final String? imagePath;
@@ -38,6 +37,9 @@ class PlantForm extends StatelessWidget {
     this.hasSimpleLeaf = false,
     this.hasCompostLeaf = false,
     this.hasStipule = false,
+    this.gpsLocation = '',
+    this.observation = '',
+    this.imagePath = '',
     required this.onChangedimagePath,
     required this.onChangedname,
     required this.onChangedpetalCount,
@@ -48,9 +50,6 @@ class PlantForm extends StatelessWidget {
     required this.onChangedhasStipule,
     required this.onChangedobservation,
     required this.onChangedgpsLocation,
-    this.gpsLocation = '',
-    this.observation = '',
-    this.imagePath,
   }) : super(key: key);
 
   @override
@@ -61,10 +60,9 @@ class PlantForm extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               buildImagePreview(),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               buildName(),
-              const SizedBox(height: 8),
-              const Divider(),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Switch(
@@ -83,7 +81,7 @@ class PlantForm extends StatelessWidget {
               ),
               Row(
                 children: [
-                 Switch(
+                  Switch(
                     value: hasCompostLeaf ?? false,
                     onChanged: (newValue) {
                       onChangedhasCompostLeaf(newValue);
@@ -97,7 +95,8 @@ class PlantForm extends StatelessWidget {
                   ),
                 ],
               ),
-              const Divider(),
+
+              const Divider(color: Colors.white38,),
               const Text("Quantidade de Petalas",
                   style: TextStyle(color: Colors.white)),
               Slider(
@@ -108,10 +107,10 @@ class PlantForm extends StatelessWidget {
                 divisions: 5,
                 onChanged: (petal) => onChangedpetalCount(petal.toInt()),
               ),
-              const Divider(),
               const SizedBox(height: 8),
-              buildObservation(),
+              buildGPS(),
               const SizedBox(height: 16),
+              buildObservation(),
             ],
           ),
         ),
@@ -167,13 +166,19 @@ class PlantForm extends StatelessWidget {
         maxLines: 1,
         initialValue: name,
         style: const TextStyle(
-          color: Colors.white70,
           fontWeight: FontWeight.bold,
           fontSize: 24,
+          color: Colors.white, // Cor do texto
         ),
         decoration: const InputDecoration(
           hintText: 'Nome',
-          hintStyle: TextStyle(color: Colors.white70),
+          hintStyle: TextStyle(
+            color: Colors.white70,
+          ),
+          contentPadding: EdgeInsets.only(bottom: 1.6),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2.0),
+          ),
         ),
         validator: (title) => title != null && title.isEmpty
             ? 'O nome não pode ficar vazio'
@@ -185,17 +190,46 @@ class PlantForm extends StatelessWidget {
         maxLines: 3,
         initialValue: observation,
         style: const TextStyle(
-          color: Colors.white70,
           fontWeight: FontWeight.bold,
           fontSize: 24,
+          color: Colors.white, // Cor do texto
         ),
         decoration: const InputDecoration(
           hintText: 'Observação',
-          hintStyle: TextStyle(color: Colors.white70),
+          hintStyle: TextStyle(
+            color: Colors.white70,
+          ),
+          contentPadding: EdgeInsets.only(bottom: 1.6),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2.0),
+          ),
         ),
-        validator: (observacao) => observacao != null && observacao.isEmpty
+        validator: (title) => title != null && title.isEmpty
             ? 'A observação não pode ficar vazia'
             : null,
         onChanged: onChangedobservation,
+      );
+
+  Widget buildGPS() => TextFormField(
+        maxLines: 1,
+        initialValue: gpsLocation,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+          color: Colors.white, // Cor do texto
+        ),
+        decoration: const InputDecoration(
+          hintText: 'GPS',
+          hintStyle: TextStyle(
+            color: Colors.white70,
+          ),
+          contentPadding: EdgeInsets.only(bottom: 1.6),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2.0),
+          ),
+        ),
+        validator: (gps) =>
+            gps != null && gps.isEmpty ? 'O GPS não pode ficar vazio' : null,
+        onChanged: onChangedgpsLocation,
       );
 }

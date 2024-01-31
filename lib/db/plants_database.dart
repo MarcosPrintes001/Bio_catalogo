@@ -50,6 +50,7 @@ CREATE TABLE $tablePlants (
     final db = await instance.database;
 
     final id = await db.insert(tablePlants, plant.toJson());
+    print(plant.observation);
     return plant.copy(id: id);
   }
 
@@ -74,7 +75,7 @@ CREATE TABLE $tablePlants (
     final db = await instance.database;
 
     const orderBy = PlantFields.id;
-    
+
     final result = await db.query(tablePlants, orderBy: orderBy);
 
     return result.map((json) => Plant.fromJson(json)).toList();

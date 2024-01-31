@@ -31,11 +31,6 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
   late String observation;
   late String gpsLocation;
 
-  // late bool isImportant;
-  // late int number;
-  // late String title;
-  // late String description;
-
   @override
   void initState() {
     super.initState();
@@ -89,19 +84,21 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
                     onChangedpetalCount: (onChangedpetalCount) =>
                         setState(() => this.petalCount = onChangedpetalCount),
                     onChangedhasLeafHair: (onChangedhasLeafHair) =>
-                        setState(() => this.hasLeafHair),
+                        setState(() => this.hasLeafHair = onChangedhasLeafHair),
                     onChangedisGlabrous: (onChangedisGlabrous) =>
-                        setState(() => this.isGlabrous),
+                        setState(() => this.isGlabrous = onChangedisGlabrous),
                     onChangedhasSimpleLeaf: (onChangedhasSimpleLeaf) =>
-                        setState(() => this.hasSimpleLeaf),
+                        setState(
+                            () => this.hasSimpleLeaf = onChangedhasSimpleLeaf),
                     onChangedhasCompostLeaf: (onChangedhasCompostLeaf) =>
-                        setState(() => this.hasLeafHair),
+                        setState(() =>
+                            this.hasCompostLeaf = onChangedhasCompostLeaf),
                     onChangedhasStipule: (onChangedhasStipule) =>
-                        setState(() => this.hasStipule),
+                        setState(() => this.hasStipule = onChangedhasStipule),
                     onChangedgpsLocation: (onChangedgpsLocation) =>
-                        setState(() => this.gpsLocation),
+                        setState(() => this.gpsLocation = onChangedgpsLocation),
                     onChangedobservation: (onChangedobservation) =>
-                        setState(() => this.observation),
+                        setState(() => this.observation = onChangedobservation),
                   ),
                 ],
               )),
@@ -109,7 +106,7 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
       );
 
   Widget buildButton() {
-    final isFormValid = name.isNotEmpty && observation.isNotEmpty;//adicionar mais verificações
+    final isFormValid = imagePath.isNotEmpty && name.isNotEmpty && observation.isNotEmpty && gpsLocation.isNotEmpty; //adicionar mais verificações
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),

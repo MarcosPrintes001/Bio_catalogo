@@ -60,10 +60,10 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                       fit: BoxFit.cover,
                     ),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          plant.name,
+                          'Nome: ${plant.name}',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 22,
@@ -71,7 +71,63 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                           ),
                         ),
                         Text(
-                          plant.observation,
+                          'Quantidade Pétalas: ${plant.petalCount}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Folha com Pelos: ${plant.hasLeafHair}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Folha Glabro: ${plant.isGlabrous}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Folha Simples: ${plant.hasSimpleLeaf}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Folha Composta: ${plant.hasCompostLeaf}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Tem Estipula: ${plant.hasStipule}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'GPS: ${plant.gpsLocation}',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Observação: ${plant.observation}',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 22,
