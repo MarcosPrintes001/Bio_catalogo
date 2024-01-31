@@ -90,7 +90,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                         ),
                         Text(
                           'Folha com Pelos: ${plant.getYesNo(plant.hasLeafHair)}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -98,7 +98,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                         ),
                         Text(
                           'Folha Glabra: ${plant.getYesNo(plant.isGlabrous)}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                         ),
                         Text(
                           'Folha Simples: ${plant.getYesNo(plant.hasSimpleLeaf)}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                         ),
                         Text(
                           'Folha Composta: ${plant.getYesNo(plant.hasCompostLeaf)}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -122,7 +122,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                         ),
                         Text(
                           'Tem Estípula: ${plant.getYesNo(plant.hasStipule)}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                         ),
                         Text(
                           'GPS: ${plant.gpsLocation}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                         ),
                         Text(
                           'Observação: ${plant.observation}',
-                          style:  TextStyle(
+                          style: TextStyle(
                             color: textCor,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -172,9 +172,36 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
           color: Colors.white,
         ),
         onPressed: () async {
-          await PlantsDatabase.instance.delete(widget.plantId);
+          if (isLoading) return;
 
-          Navigator.of(context).pop();
+          // Mostra o diálogo de confirmação antes de excluir
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Confirmação"),
+                content: const Text(
+                    "Tem certeza de que deseja excluir esta planta?"),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Cancelar"),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      // Exclui a planta
+                      await PlantsDatabase.instance.delete(widget.plantId);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Confirmar"),
+                  ),
+                ],
+              );
+            },
+          );
         },
       );
 }
