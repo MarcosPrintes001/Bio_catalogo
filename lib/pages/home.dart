@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_this
-
 import 'package:bio_catalogo/db/plants_database.dart';
 import 'package:bio_catalogo/model/plant.dart';
 import 'package:bio_catalogo/pages/edit_plant.dart';
@@ -8,7 +6,7 @@ import 'package:bio_catalogo/widget/plant_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,7 +14,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<Plant> plants;
+  late List<Plant> filteredPlants; // Lista de plantas filtradas
   bool isLoading = false;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
@@ -35,7 +35,8 @@ class _HomePageState extends State<HomePage> {
   Future refreshList() async {
     setState(() => isLoading = true);
 
-    this.plants = await PlantsDatabase.instance.readAllPlants();
+    plants = await PlantsDatabase.instance.readAllPlants();
+    filteredPlants = List.from(plants);
 
     setState(() => isLoading = false);
   }
@@ -52,30 +53,53 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          actions: const [
-            IconButton(
-              onPressed: null, //Implementar busca de palavras
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-                size: 30,
-              ),
-            )
-          ],
         ),
         backgroundColor: Colors.green,
         body: Center(
-          child: isLoading
-              ? const CircularProgressIndicator()
-              : plants.isEmpty
-                  ? const Text(
-                      'Sem Plantas',
-                      style: TextStyle(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: TextField(
+                  controller: searchController,
+                  onChanged: onSearchTextChanged,
+                  decoration: const InputDecoration(
+                    labelText: 'Filtrar por nome ou qtd petalas',
+                    labelStyle: TextStyle(color: Colors.white),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
                         color: Colors.white,
-                        fontSize: 24,
                       ),
-                    )
-                  : buildPlants(),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    prefixIcon: Icon(Icons.search, color: Colors.white),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                  cursorColor: Colors.white,
+                ),
+              ),
+              Expanded(
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : filteredPlants.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'Sem Plantas',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
+                          )
+                        : buildPlants(),
+              ),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
@@ -97,9 +121,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildPlants() => ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: plants.length,
+        itemCount: filteredPlants.length, // Use a lista de plantas filtradas
         itemBuilder: (context, index) {
-          final plant = plants[index];
+          final plant = filteredPlants[index];
 
           return GestureDetector(
             onTap: () async {
@@ -115,4 +139,14 @@ class _HomePageState extends State<HomePage> {
           );
         },
       );
+
+  // Método para filtrar a lista de plantas com base na consulta de pesquisa
+  void onSearchTextChanged(String text) {
+    setState(() {
+      filteredPlants = plants.where((plant) {
+        return plant.name.toLowerCase().contains(text.toLowerCase()) ||
+            plant.petalCount.toString().contains(text.toLowerCase());
+      }).toList();
+    });
+  }
 }
