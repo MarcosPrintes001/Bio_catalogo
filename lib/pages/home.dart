@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green[800],
+          backgroundColor: Color.fromARGB(255, 38, 123, 98),
           title: const Text(
             'BIO CATALOGO',
             style: TextStyle(
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Color.fromARGB(255, 40, 176, 143),
         body: Center(
           child: Column(
             children: [
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.black,
+          backgroundColor: const Color.fromARGB(255, 2, 2, 2),
           child: const Icon(
             Icons.add,
             color: Colors.white,

@@ -55,10 +55,10 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green[800],
+          backgroundColor: const Color.fromARGB(255, 38, 123, 98),
           actions: [buildButton()],
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 40, 176, 143),
         body: SingleChildScrollView(
           child: Form(
               key: _formKey,
@@ -111,13 +111,25 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isFormValid ? null : Colors.red,
+        style: ButtonStyle(
+          side: MaterialStateProperty.all(BorderSide(
+            color: isFormValid ? Colors.green : Colors.red, // Cor da borda
+            width: 2.0, // Largura da borda
+          )),
+          backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+            if (states.contains(MaterialState.disabled)) {
+              return Colors
+                  .grey; // Cor de fundo quando o botão está desabilitado
+            }
+            return Colors.white; // Cor de fundo quando o botão está habilitado
+          }),
         ),
         onPressed: addOrUpdateNote,
-        child: const Text(
+        child: Text(
           'Salvar',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: isFormValid ? Colors.green : Colors.red, // Cor do texto
+          ),
         ),
       ),
     );
@@ -176,6 +188,7 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
         gpsLocation: gpsLocation);
 
     await PlantsDatabase.instance.update(plant);
+    Future.delayed(const Duration(seconds: 2));
   }
 
   Future addNote() async {
@@ -191,5 +204,6 @@ class _AddEditPlantPageState extends State<AddEditPlantPage> {
         observation: observation,
         gpsLocation: gpsLocation);
     await PlantsDatabase.instance.create(plant);
+    Future.delayed(const Duration(seconds: 2));
   }
 }

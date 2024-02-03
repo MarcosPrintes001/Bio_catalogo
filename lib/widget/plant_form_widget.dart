@@ -60,85 +60,10 @@ class PlantForm extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildImagePreview(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
               buildName(),
               const SizedBox(height: 16),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Switch(
-                      value: hasLeafHair ?? false,
-                      onChanged: (newValue) {
-                        onChangedhasLeafHair(newValue);
-                      },
-                    ),
-                    const Text(
-                      "Pelo nas Folhas",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    
-                    Switch(
-                      value: isGlabrous ?? false,
-                      onChanged: (newValue) {
-                        onChangedisGlabrous(newValue);
-                      },
-                    ),
-                    const Text(
-                      "É Glabro",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                
-                    Switch(
-                      value: hasStipule ?? false,
-                      onChanged: (newValue) {
-                        onChangedhasStipule(newValue);
-                      },
-                    ),
-                    const Text(
-                      "Tem Estípula",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                
-                  ],
-                ),
-              ),
-              SingleChildScrollView(
-                child: Row(
-                  children: [
-                    Switch(
-                      value: hasSimpleLeaf ?? false,
-                      onChanged: (newValue) {
-                        onChangedhasSimpleLeaf(newValue);
-                      },
-                    ),
-                    const Text(
-                      "Folhas Simples",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    Switch(
-                      value: hasCompostLeaf ?? false,
-                      onChanged: (newValue) {
-                        onChangedhasCompostLeaf(newValue);
-                      },
-                    ),
-                    const Text(
-                      "Folhas Compostas",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              buildSwitches(),
               const Divider(
                 color: Colors.white38,
               ),
@@ -175,7 +100,7 @@ class PlantForm extends StatelessWidget {
               height: 300,
               width: 300,
               alignment: Alignment.center,
-              color: Colors.green[800],
+              color: const Color.fromARGB(255, 38, 123, 98),
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,6 +131,112 @@ class PlantForm extends StatelessWidget {
       onChangedimagePath(pickedFile.path);
     }
   }
+
+  Widget buildSwitches() => Center(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Row(
+                  children: [
+                    Switch(
+                      value: hasLeafHair ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasLeafHair(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Folhas\nPeluda",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Switch(
+                      value: isGlabrous ?? false,
+                      onChanged: (newValue) {
+                        onChangedisGlabrous(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Folhas\nGlabro",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    Switch(
+                      value: hasSimpleLeaf ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasSimpleLeaf(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Folhas\nSimples",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Switch(
+                      value: hasCompostLeaf ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasCompostLeaf(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Folhas\nCompostas",
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Row(
+                  children: [
+                    Switch(
+                      value: hasStipule ?? false,
+                      onChanged: (newValue) {
+                        onChangedhasStipule(newValue);
+                      },
+                    ),
+                    const Text(
+                      "Tem\nEstípula",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
 
   Widget buildName() => TextFormField(
         maxLines: 1,

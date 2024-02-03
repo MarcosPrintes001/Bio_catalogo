@@ -17,6 +17,7 @@ class PlantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(8),
+      color: Colors.white60,
       child: ListTile(
         leading: Image.file(
           File(plant.imagePath),

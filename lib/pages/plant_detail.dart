@@ -22,7 +22,7 @@ class PlantDetailPage extends StatefulWidget {
 class _PlantDetailPageState extends State<PlantDetailPage> {
   late Plant plant;
   bool isLoading = false;
-  Color textCor = Colors.black;
+  Color textCor = const Color.fromARGB(225, 2, 2, 2);
 
   @override
   void initState() {
@@ -42,13 +42,13 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green[800],
+          backgroundColor: const Color.fromARGB(255, 38, 123, 98),
           actions: [
             editButton(),
             deleteButton(),
           ],
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 40, 176, 143),
         body: isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
@@ -57,20 +57,20 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                 padding: const EdgeInsets.all(12),
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  physics:
-                      const AlwaysScrollableScrollPhysics(), // Permite rolagem mesmo se o conteúdo for pequeno
-                  shrinkWrap:
-                      true, // Para garantir que o ListView não consuma mais espaço do que necessário
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   children: [
-                    Image.file(
-                      File(plant.imagePath),
+                    Container(
+                      padding: const EdgeInsets.all(2),
                       width: 300,
                       height: 300,
-                      fit: BoxFit.cover,
+                      child: Image.file(
+                        File(plant.imagePath),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment
-                          .start, // Alinha os filhos à esquerda
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Nome: ${plant.name}',
@@ -97,7 +97,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                           ),
                         ),
                         Text(
-                          'Folha Glabra: ${plant.getYesNo(plant.isGlabrous)}',
+                          'Folha Glabro: ${plant.getYesNo(plant.isGlabrous)}',
                           style: TextStyle(
                             color: textCor,
                             fontSize: 22,
@@ -179,9 +179,13 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text("Confirmação"),
-                content: const Text(
-                    "Tem certeza de que deseja excluir esta planta?"),
+                title: const Center(
+                    child: Text(
+                  "ATENÇÃO!⚠",
+                )),
+                content: Text(
+                  "Tem certeza de que deseja excluir '${plant.name}'",
+                ),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
