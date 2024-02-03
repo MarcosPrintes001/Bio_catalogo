@@ -17,19 +17,20 @@ class PlantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(8),
-      color: Colors.white60,
+      color: Colors.blueGrey[50],
       child: ListTile(
-        leading: Image.file(
-          File(plant.imagePath),
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
+        leading: CircleAvatar(
+          radius: 30,
+          backgroundImage: FileImage(
+            File(plant.imagePath),
+            scale: 30,
+          ),
         ),
         title: Text(
-          '${plant.name.toUpperCase()} \n${plant.gpsLocation}',
+          'Nome: ${plant.name.toUpperCase()}\nLocal: ${plant.gpsLocation}',
         ),
         subtitle: Text(
-          plant.observation,
+          'Obs: ${plant.observation}',
         ),
       ),
     );

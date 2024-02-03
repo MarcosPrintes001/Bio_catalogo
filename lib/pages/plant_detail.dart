@@ -6,6 +6,7 @@ import 'package:bio_catalogo/db/plants_database.dart';
 import 'package:bio_catalogo/model/plant.dart';
 import 'package:bio_catalogo/pages/edit_plant.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 class PlantDetailPage extends StatefulWidget {
   final int plantId;
@@ -53,102 +54,143 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Padding(
-                padding: const EdgeInsets.all(12),
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(2),
-                      width: 300,
-                      height: 300,
-                      child: Image.file(
-                        File(plant.imagePath),
-                        fit: BoxFit.cover,
+            : Column(
+                children: [
+                  Container(
+                    color: Colors.black87, // Cor escura para a parte superior
+                    height: MediaQuery.of(context).size.height *
+                        0.3, // 30% da altura da tela
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: PhotoView(
+                                  imageProvider: FileImage(
+                                    File(plant.imagePath),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Center(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 60,
+                                backgroundImage:
+                                    FileImage(File(plant.imagePath)),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                plant.name,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Nome: ${plant.name}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      color: Colors
+                          .grey[200], // Cor mais clara para a parte inferior
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 12),
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: const Border.symmetric(),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      "Detalhes".toUpperCase(),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                  ),
+                                  const Divider(),
+                                  _buildTableRow("Quantidade Pétalas:",
+                                      plant.petalCount.toString()),
+                                  const Divider(),
+                                  _buildTableRow("Folha com Pelos:",
+                                      plant.getYesNo(plant.hasLeafHair)),
+                                  const Divider(),
+                                  _buildTableRow("Folha Glabro:",
+                                      plant.getYesNo(plant.isGlabrous)),
+                                  const Divider(),
+                                  _buildTableRow("Folha Simples:",
+                                      plant.getYesNo(plant.hasSimpleLeaf)),
+                                  const Divider(),
+                                  _buildTableRow("Folha Composta:",
+                                      plant.getYesNo(plant.hasCompostLeaf)),
+                                  const Divider(),
+                                  _buildTableRow("Tem Estípula:",
+                                      plant.getYesNo(plant.hasStipule)),
+                                  const Divider(),
+                                  _buildTableRow("GPS:", plant.gpsLocation),
+                                  const Divider(),
+                                  _buildTableRow(
+                                      "Observação:", plant.observation),
+                                  const Divider(),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          'Quantidade Pétalas: ${plant.petalCount}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Folha com Pelos: ${plant.getYesNo(plant.hasLeafHair)}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Folha Glabro: ${plant.getYesNo(plant.isGlabrous)}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Folha Simples: ${plant.getYesNo(plant.hasSimpleLeaf)}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Folha Composta: ${plant.getYesNo(plant.hasCompostLeaf)}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Tem Estípula: ${plant.getYesNo(plant.hasStipule)}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'GPS: ${plant.gpsLocation}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Observação: ${plant.observation}',
-                          style: TextStyle(
-                            color: textCor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+      );
+
+  Widget _buildTableRow(String label, String value) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                color: textCor,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: textCor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
+            ),
+          ],
+        ),
       );
 
   Widget editButton() => IconButton(
@@ -174,7 +216,6 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
         onPressed: () async {
           if (isLoading) return;
 
-          // Mostra o diálogo de confirmação antes de excluir
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -182,9 +223,16 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                 title: const Center(
                     child: Text(
                   "ATENÇÃO!⚠",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
                 )),
                 content: Text(
-                  "Tem certeza de que deseja excluir '${plant.name}'",
+                  "Tem certeza de que deseja excluir '${plant.name}'"
+                      .toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
                 actions: <Widget>[
                   TextButton(

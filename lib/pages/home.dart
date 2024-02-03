@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<Plant> plants;
-  late List<Plant> filteredPlants; // Lista de plantas filtradas
+  late List<Plant> filteredPlants; 
   bool isLoading = false;
   TextEditingController searchController = TextEditingController();
 
