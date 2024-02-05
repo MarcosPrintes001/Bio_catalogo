@@ -49,7 +49,7 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
             deleteButton(),
           ],
         ),
-        backgroundColor: const Color.fromARGB(255, 40, 176, 143),
+        backgroundColor: const Color.fromARGB(255, 38, 123, 98),
         body: isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
@@ -104,21 +104,21 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      color: Colors
-                          .grey[200], // Cor mais clara para a parte inferior
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12, right: 12),
-                        child: ListView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: const Border.symmetric(),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
+                    child: Padding(
+                      padding: const EdgeInsets.all(13.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              10), // Adiciona bordas arredondadas
+                          color: Colors.grey[200],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 12, right: 12),
+                          child: ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: [
+                              Column(
                                 children: [
                                   Center(
                                     child: Text(
@@ -156,8 +156,8 @@ class _PlantDetailPageState extends State<PlantDetailPage> {
                                   const Divider(),
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
