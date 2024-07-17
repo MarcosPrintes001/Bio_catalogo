@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 38, 123, 98),
+          backgroundColor: const Color.fromARGB(255, 38, 123, 98),
           title: const Text(
             'BIO CATALOGO',
             style: TextStyle(
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 40, 176, 143),
+        backgroundColor: const Color.fromARGB(255, 40, 176, 143),
         body: Center(
           child: Column(
             children: [
